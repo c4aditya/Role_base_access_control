@@ -30,6 +30,8 @@ async function logIn(req, res) {
             })
         }
 
+        // if user is registered 
+
       
         // creatign a paylode for JWT
         const paylode = {
