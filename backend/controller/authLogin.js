@@ -51,7 +51,7 @@ async function logIn(req, res) {
                 process.env.JWT_KEY,
                 // creating an options
                 {
-                    expiresIn: "2h",
+                    expiresIn: "240h",
                 }
             );
 
