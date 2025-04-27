@@ -192,6 +192,41 @@ frontend/
 
 
 
+# for run this code in your local 
+
+# for frontend you have to install 
+
+- npm i vite@lates 
+- cd file_file name
+- npm i axios
+- npm i react-dom
+- npm i react-router-dom
+- react-toastify
+- npm run dev 
+
+# for backend 
+
+- npm init -y
+- npm i nodemon
+- npm i mongoose 
+- npm i express
+- npm i cors
+- npm i dotenv
+- npm i cors
+- npm i bcrypt
+- npm i cookie-parser
+- npm i jsonwebtoken
+- npm run dev 
+
+# note make changes in 
+packeng.json  with this command  for run the backend 
+ "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+
+# after this both frontend and backend run
+# for Databse use mongocompass and then cpoy your ip address form [mongodb campas ] and pest it in .env file after that db also connect and start working
 
 
 
