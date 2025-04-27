@@ -1,13 +1,23 @@
 const express = require("express");
 const db_connect = require("./config/database")
 const cookieParser = require('cookie-parser');
-
+const cors = require("cors")
 const app = express();
 
 // getting the port from .env
 require("dotenv").config();
 
 const PORT = process.env.PORT || 5000;
+
+app.use(cors());
+
+const corsOptions = {
+    origin: "*", 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+    allowedHeaders: ["*"] 
+  };
+
+  app.use(cors(corsOptions));
 
 // adding middlerware 
 app.use(express.json());
