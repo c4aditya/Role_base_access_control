@@ -4,6 +4,7 @@ function varifyAdmin(req ,res ,next){
 // getting token beacuse only admin can perform some action 
     const token = req.cookies.admin_cookies;
 
+
     if(!token){
         return res.status(401).json({
             sucess:false,
@@ -20,8 +21,8 @@ function varifyAdmin(req ,res ,next){
     try{
         const varifyKey = JWT.verify(token ,process.env.JWT_KEY);
 
-        if (varifyKey.role !== "Admin"){
-            return res.status(500).json({
+        if (varifyKey.role !== "admin"){
+            return res.status(403).json({
                 sucess:false,
                 message:"Your are not a admin access denied "
             })
@@ -34,7 +35,7 @@ function varifyAdmin(req ,res ,next){
     }
 
     catch(error){
-        res.status(500).json({
+        res.status(401).json({
             sucess:false,
             message:"invalid or Token expire "
         })

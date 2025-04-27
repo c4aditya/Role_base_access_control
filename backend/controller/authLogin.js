@@ -51,7 +51,7 @@ async function logIn(req, res) {
                 process.env.JWT_KEY,
                 // creating an options
                 {
-                    expiresIn: "240h",
+                    expiresIn: "2h",
                 }
             );
 
@@ -60,12 +60,14 @@ async function logIn(req, res) {
 
             // options for cookies
             const options = {
-            expires: new Date (Date.now() + 3 * 24 * 60 * 60 * 1000),
-            httpOnly:true,
-            }
+                expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+                httpOnly: true,
+                sameSite: "lax", // "none" karo agar HTTPS pe ho
+                secure: false    // true karo agar HTTPS pe ho
+            };
 
             // creting a cookie
-             res.cookie("token" ,token ,options).status(200).json({
+             res.cookie("admin_cookies" ,token ,options).status(200).json({
                 sucess:true,
                 token,
                 user,

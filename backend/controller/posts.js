@@ -17,6 +17,7 @@ async function createPost(req, res) {
 
         res.status(200).json({
             sucess: true,
+            data:newPost,
             message: "Post is created"
         })
     }
@@ -79,7 +80,7 @@ async function getSinglePost(req, res) {
         const id = req.params.id;
         // extracting the items 
         const getSinglePost = await post.findById({_id : id} );
-        
+
          // its only check the id formate like in mongobd id are in 24 charactrers then if the cheracters is 24 but with matching character there are no object then this if blck is run 
        
         if (!getSinglePost) {

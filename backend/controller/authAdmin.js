@@ -58,6 +58,8 @@ async function adminLogin(req ,res){
            const options = {
             expires: new Date (Date.now() + 3 * 24 * 60 * 60 * 1000),
             httpOnly:true,
+            sameSite: "lax", // "none" karo agar HTTPS pe ho
+            secure: false
             }
 
               // creting a cookie
