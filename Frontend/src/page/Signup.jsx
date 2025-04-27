@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Signup() {
-  // Using a single useState for all fields
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
-    role: 'user',
+    role: 'user', // Default role is 'user'
   });
+  const navigate = useNavigate(); // Hook for navigation
 
-  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -19,18 +19,28 @@ function Signup() {
     }));
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:3300/api/v1/signup', formData);
       alert(response.data.message);
-      // Reset form after successful submit
+      
+      // After successful signup, handle redirection based on the role
+      const { role } = response.data.user;  // Get role from response
+
+      // Redirect to the corresponding dashboard
+      if (role === 'user') {
+        navigate('/user-dashboard'); // Redirect to user dashboard
+      } else if (role === 'admin') {
+        navigate('/admin-dashboard'); // Redirect to admin dashboard
+      }
+
+      // Reset form data after successful signup
       setFormData({
         name: '',
         email: '',
         password: '',
-        role: 'user',
+        role: 'user', // Reset role to default
       });
     } catch (error) {
       alert('Error during signup');
@@ -43,7 +53,7 @@ function Signup() {
         <label>Name</label>
         <input
           type="text"
-          name="name" 
+          name="name"
           value={formData.name}
           onChange={handleChange}
         />
@@ -68,11 +78,7 @@ function Signup() {
       </div>
       <div>
         <label>Role</label>
-        <select
-          name="role"
-          value={formData.role}
-          onChange={handleChange}
-        >
+        <select name="role" value={formData.role} onChange={handleChange}>
           <option value="user">User</option>
           <option value="admin">Admin</option>
         </select>

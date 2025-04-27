@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
-  // Using a single state object for all fields
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    role: 'user',
   });
 
-  // Handle input changes for all fields
+  const navigate = useNavigate(); // Hook for navigation
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -18,22 +18,69 @@ function Login() {
     }));
   };
 
-  // Handle form submission
-  const handleSubmit = async (e) => {
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const response = await axios.post('http://localhost:3300/api/v1/login', formData);
+//       alert(response.data.message);
+
+//       // Assuming the response contains the user info and JWT token
+//       const { role } = response.data.user;  // Ensure the role is returned correctly
+//       const token = response.data.token;
+
+//       // Store token in cookie
+//       document.cookie = `authToken=${token}; path=/;`; // Store token in cookie
+
+//       // Redirect based on role (ensure correct case)
+//       if (role === 'user') {
+//         navigate('/user-dashboard'); // Redirect to user dashboard
+//       } else if (role === 'admin') {
+//         navigate('/admin-dashboard'); // Redirect to admin dashboard
+//       }
+
+//       // Reset form after successful submit
+//       setFormData({
+//         email: '',
+//         password: '',
+//       });
+//     } catch (error) {
+//       alert('Error during login');
+//     }
+//   };
+
+const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3300/api/v1/login', formData);
-      alert(response.data.message);
-      // Reset form after successful submit
-      setFormData({
-        email: '',
-        password: '',
-        role: 'user',
-      });
+        // Sending login request to backend
+        const response = await axios.post('http://localhost:3300/api/v1/login', formData, {
+            withCredentials: true,  // Ensures cookies are sent with the request
+        });
+
+        alert(response.data.message);
+
+        // Assuming the response contains the user info and JWT token
+        const { role } = response.data.user;  // Ensure the role is returned correctly
+        const token = response.data.token;
+
+        // Store token in cookie
+        // document.cookie = `authToken=${token}; path=/;`; // Store token in cookie
+
+        // Redirect based on role (ensure correct case)
+        if (role === 'user') {
+            navigate('/user-dashboard');  // Redirect to user dashboard
+        } else if (role === 'admin') {
+            navigate('/admin-dashboard');  // Redirect to admin dashboard
+        }
+
+        // Reset form after successful submit
+        setFormData({
+            email: '',
+            password: '',
+        });
     } catch (error) {
-      alert('Error during login');
+        alert('Error during login');
     }
-  };
+};
 
   return (
     <form onSubmit={handleSubmit}>
@@ -54,17 +101,6 @@ function Login() {
           value={formData.password}
           onChange={handleChange}
         />
-      </div>
-      <div>
-        <label>Role</label>
-        <select
-          name="role"
-          value={formData.role}
-          onChange={handleChange}
-        >
-          <option value="user">User</option>
-          <option value="admin">Admin</option>
-        </select>
       </div>
       <button type="submit">Log In</button>
     </form>
