@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -18,35 +19,6 @@ function Login() {
     }));
   };
 
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     try {
-//       const response = await axios.post('http://localhost:3300/api/v1/login', formData);
-//       alert(response.data.message);
-
-//       // Assuming the response contains the user info and JWT token
-//       const { role } = response.data.user;  // Ensure the role is returned correctly
-//       const token = response.data.token;
-
-//       // Store token in cookie
-//       document.cookie = `authToken=${token}; path=/;`; // Store token in cookie
-
-//       // Redirect based on role (ensure correct case)
-//       if (role === 'user') {
-//         navigate('/user-dashboard'); // Redirect to user dashboard
-//       } else if (role === 'admin') {
-//         navigate('/admin-dashboard'); // Redirect to admin dashboard
-//       }
-
-//       // Reset form after successful submit
-//       setFormData({
-//         email: '',
-//         password: '',
-//       });
-//     } catch (error) {
-//       alert('Error during login');
-//     }
-//   };
 
 const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,14 +28,14 @@ const handleSubmit = async (e) => {
             withCredentials: true,  // Ensures cookies are sent with the request
         });
 
-        alert(response.data.message);
+        
 
         // Assuming the response contains the user info and JWT token
         const { role } = response.data.user;  // Ensure the role is returned correctly
         const token = response.data.token;
 
         // Store token in cookie
-        // document.cookie = `authToken=${token}; path=/;`; // Store token in cookie
+        document.cookie = `admin_cookies=${token}`; // Store token in cookie
 
         // Redirect based on role (ensure correct case)
         if (role === 'user') {
@@ -71,6 +43,7 @@ const handleSubmit = async (e) => {
         } else if (role === 'admin') {
             navigate('/admin-dashboard');  // Redirect to admin dashboard
         }
+        toast.success("Your are loged in")
 
         // Reset form after successful submit
         setFormData({
@@ -78,7 +51,7 @@ const handleSubmit = async (e) => {
             password: '',
         });
     } catch (error) {
-        alert('Error during login');
+        toast.error("Login failed")
     }
 };
 

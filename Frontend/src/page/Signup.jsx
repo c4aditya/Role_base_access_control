@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 function Signup() {
@@ -23,9 +24,9 @@ function Signup() {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:3300/api/v1/signup', formData);
-      alert(response.data.message);
+      toast.success("Your are loged in")
       
-      // After successful signup, handle redirection based on the role
+    //   After successful signup, handle redirection based on the role
       const { role } = response.data.user;  // Get role from response
 
       // Redirect to the corresponding dashboard
@@ -43,7 +44,8 @@ function Signup() {
         role: 'user', // Reset role to default
       });
     } catch (error) {
-      alert('Error during signup');
+       toast.error("Your email is alredy registure")
+      alert('Email already regustered');
     }
   };
 
@@ -80,7 +82,7 @@ function Signup() {
         <label>Role</label>
         <select name="role" value={formData.role} onChange={handleChange}>
           <option value="user">User</option>
-          <option value="admin">Admin</option>
+          {/* <option value="admin">Admin</option> */}
         </select>
       </div>
       <button type="submit">Sign Up</button>

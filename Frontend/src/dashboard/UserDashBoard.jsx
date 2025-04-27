@@ -7,8 +7,8 @@ function User() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get('http://localhost:3300/api/v1/posts');
-        setPosts(response.data);
+        const response = await axios.get('http://localhost:3300/api/v1/allPost');
+        setPosts(response.data.data || []);
       } catch (error) {
         alert('Failed to fetch posts');
       }
@@ -19,17 +19,23 @@ function User() {
 
   return (
     <div>
+        <div className='user'>
+
       <h2>User Dashboard</h2>
-      <h3>Posts</h3>
+      <h3> Our Posts</h3>
+      <div className='posts'>
       {posts.length > 0 ? (
         posts.map((post) => (
-          <div key={post._id}>
-            <p>{post.content}</p>
+          <div className='single-posts' key={post._id}>
+            <p className='heading'>{post.title}</p>
+            <p>{post.description}</p>
           </div>
         ))
       ) : (
         <p>No posts available</p>
       )}
+      </div>
+    </div>
     </div>
   );
 }
