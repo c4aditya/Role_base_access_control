@@ -229,7 +229,7 @@ packeng.json  with this command  for run the backend
 # for Databse use mongocompass and then cpoy your ip address form [mongodb campas ] and pest it in .env file after that db also connect and start working
 
 # for new user do signup 
-# for admin use 
+# for admin login use 
 email :-admin123@gmail.com;
 password:-admin123
 
